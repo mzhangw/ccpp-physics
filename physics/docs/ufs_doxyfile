@@ -2,7 +2,7 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "Common Community Physics Package (CCPP) Scientific Documentation"
 PROJECT_NUMBER         = ""
-PROJECT_BRIEF          = " "
+PROJECT_BRIEF          = "Unified Forecast System"
 PROJECT_LOGO           = img/dtc_logo.png
 OUTPUT_DIRECTORY       = doc
 CREATE_SUBDIRS         = NO
@@ -112,7 +112,9 @@ INPUT                  =  pdftxt/mainpage.txt     \
                           pdftxt/GFS_NOAH.txt     \
                           pdftxt/GFS_SFCSICE.txt  \
                           pdftxt/GFS_HEDMF.txt    \
-                          pdftxt/GFS_SATMEDMF.txt    \
+                          pdftxt/GFS_SATMEDMFQ.txt    \
+##                          pdftxt/GFS_NoahMP.txt    \
+                          pdftxt/GFS_UGWPv0.txt   \
                           pdftxt/GFS_GWDPS.txt    \
                           pdftxt/GFS_OZPHYS.txt   \
                           pdftxt/GFS_H2OPHYS.txt  \
@@ -122,7 +124,6 @@ INPUT                  =  pdftxt/mainpage.txt     \
                           pdftxt/GFS_GWDC.txt     \
                           pdftxt/GFS_SAMFshal.txt \
                           pdftxt/GFDL_cloud.txt   \
-###                          pdftxt/GFS_SURFACE_PERT.txt    \
                           pdftxt/GFS_CALPRECIPTYPE.txt   \
 ###                          pdftxt/rad_cld.txt             \
                           pdftxt/CPT_CSAW.txt            \
@@ -186,9 +187,10 @@ INPUT                  =  pdftxt/mainpage.txt     \
                         ../mfpbl.f \
                         ../tridi.f \
 ### satmedmf
-                        ../satmedmfvdif.F \
-                        ../mfpblt.f         \
-                        ../mfscu.f          \
+##                        ../satmedmfvdif.F \
+                        ../satmedmfvdifq.F  \
+                        ../mfpbltq.f         \
+                        ../mfscuq.f          \
                         ../tridi.f          \
 ### Orographic Gravity Wave
 ###                        ../gwdps.f \
