@@ -15,6 +15,8 @@ parameterizations. Its variables are defined in file GFS_typedefs.F90 in the hos
 - Namelist \b &stochy_nam specifies options for the use of SPPT, SKEB and SHUM, while namelist \b &nam_sfcperts specifies whether
 and how stochastic perturbations are used in the Noah Land Surface Model.
 
+- Namelist \b &cires_ugwp_nml specifies options for the use of CIRES Unified Gravity Wave Physics Version 0.
+
 <table>
 <caption id="multi_row">NML Description</caption>
 <tr><th>option          <th>DDT in Host Model                       <th>Description                <th>Default Value
@@ -434,5 +436,51 @@ and how stochastic perturbations are used in the Noah Land Surface Model.
 <tr><td>fix_negative      <td>gfdl_cloud_microphys_mod   <td>\e true to fix negative water species using nearby points                                                                                              <td>.false.
 <tr><td>icloud_f          <td>gfdl_cloud_microphys_mod   <td>flag (0,1,or 2) for cloud fraction diagnostic scheme                                       <td>0
 <tr><td>mp_time           <td>gfdl_cloud_microphys_mod   <td>time step of GFDL cloud microphysics                                                       <td>150.
+<tr><td colspan="4" align= center>\b &cires_ugwp_nml
+<tr><td>knob_ugwp_version <td>cires_ugwp_module          <td>parameter selects a version of the UGWP-implementation in FV3GFS-127L  \n       
+                                                         <ul>
+                                                         <li> 0: default version delivered to EMC in Jan 2019 for implementation
+                                                         <li> 1: version of UGWP under development that plans to consider the physics-based sources of NGWs (\b knob_ugwp_wvspec [2:4]), options for stochastic and deterministic excitation of waves (\b knob_ugwp_stoch), and switches between different UGWP schemes (\b knob_ugwp_solver)
+                                                         </ul>
+                                                         <td>0
+<tr><td>knob_ugwp_doaxyz  <td>cires_ugwp_module          <td>parameter controls application of the momentum deposition for NGW-schemes \n
+                                                         <ul>
+                                                         <li> 0: the momentum tendencies due to NGWs are calculated, but tendencies do not change the horizontal winds
+                                                         <li> 1: default value; it changes the horizontal momentum tendencies and horizontal winds
+                                                         </ul>
+                                                         <td>1
+<tr><td>knob_ugwp_doheat  <td>cires_ugwp_module          <td>parameter controls application of the heat deposition for NGW-schemes \n
+                                                         <ul>
+                                                         <li> 0: the temperature tendencies due to NGWs are calculated but tendencies do not change the temperature state
+                                                         <li> 1: default value; it changes the temperature tendencies and kinetic temperature
+                                                         </ul>
+                                                         <td>1
+<tr><td>knob_ugwp_dokdis  <td>cires_ugwp_module          <td>parameter controls application of the eddy diffusion due to instability of NGWs \n
+                                                         <ul>
+                                                         <li> 0: the eddy diffusion tendencies due to NGWs are calculated but tendencies do not change the model state vector
+                                                         <li> 1: it computes eddy diffusion coefficient due to instability of NGWs; in UGWP-v0, eddy viscosity, heat conductivity and tracer diffusion are not activated
+                                                         </ul>
+                                                         <td>0
+<tr><td>knob_ugwp_solver  <td>cires_ugwp_module          <td>parameter controls the selection of UGWP-solvers(wave propagation, dissipation and wave breaking) for NGWs  \n
+                                                         <ul>
+                                                         <li> 1: represents the discrete multi-wave solver with background dissipation and linear wave saturation
+                                                         <li> 2: represents the spectral deterministic solver with background dissipation and spectral saturation
+                                                         <li> 3: represents the discrete multi-wave solver with the background dissipation, extension of Alexander sand Dunkerton (1999)
+                                                         <li> 4: represents the spectral solver with background dissipation, extension of Doppler Spread Theory of Hines (1997)
+                                                         </ul>
+                                                         <td>1
+<tr><td>knob_ugwp_ndx4lh  <td>cires_ugwp_module          <td>parameter controls the selection of the horizontal wavenumber(wavelength) for NGW schemes \n
+                                                         <ul>
+                                                         <li> 1: selects the \f$4xdx\f$ sub-grid wavelength, where dx is the horizontal resolution of the model configuration (C96-400km; C768-52km)
+                                                         </ul>
+                                                         <td>2
+<tr><td>knob_ugwp_wvspec  <td>cires_ugwp_module          <td>four-dimensional array defines number of waves in each arimuthal propagation (as defined by knob_ugwp_azdir) for GWs excited due to the following four sources: \n
+                                                             (1) sub-grid orography (\b knob_ugwp_wvspec[1]=1), \n
+                                                             (2) convective (\b knob_ugwp_wvspec[2]=25), \n
+                                                             (3) frontal (\b knob_ugwp_wvspec[3]=25) activity, \n
+                                                             (4) \b knob_ugwp_wvspec[4] represents number of wave excited by dynamical imbalances that may mimic both convective and front-jet mechanisms of GW triggering. \n
+                                                             In UGWP-v0, first two elements of the array, \b knob_ugwp_wvspec(1:2), control number of waves for stationary (OGW) and nonstationary waves (NGWs).
+                                                         <td>1,32,32,32
+<tr><td>knob_ugwp_azdir   <td>cires_ugwp_module          <td>four-dimensional array that defines number of                                                       
 </table>
 */
