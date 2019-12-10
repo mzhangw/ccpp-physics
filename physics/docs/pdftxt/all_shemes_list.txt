@@ -81,16 +81,16 @@ to the parameterization.
 
 \section allsuite_overview Physics Suites
 
-The CCPP  includes the suite used in the GFS v15.2 implemented operationally in Nov 2019 (suite GFS_v15.2) and a proposed version 16 to be implemented operationally in 2021.
+The CCPP  includes the suite used in the GFS v15.2 implemented operationally in Nov 2019 (suite GFS_v15.2) and a proposed version 16beta to be implemented operationally in 2021.
  Additionally, it includes two
 developmental suites which are undergoing testing for possible future implementation in the UFS. Suite GFS_v16beta is identical to suite
 GFS_v15.2 except for an update in the PBL parameterization (Han et al. 2019 \cite Han_2019 ) and \ref GFS_UGWPv0. Suite csawmg differs from GFS_v15 as it 
 contains different convection and microphysics schemes made available through a NOAA Climate Process Team (CPT) with components developed 
-at multiple research centers and universities, including Colorado State, Utah, NASA, NCAR, and EMC. Suite GSD_v0 differs from GFS_v15 as it 
+at multiple research centers and universities, including Colorado State, Utah, NASA, NCAR, and EMC. Suite GSD_v0 differs from GFS_v15.2 as it 
 uses the convection, microphysics, and boundary layer schemes employed in the Rapid Refresh (RAP) and High-Resolution Rapid Refresh (HRRR \cite Benjamin_2016 )
 operational models and was assembled by NOAA/GSD. An assessment of an earlier version of these suites can be found in 
 <a href="https://ufscommunity.org/#/science/physics"> the UFS portal </a>
-and in <a href="https://dtcenter.org/eval/gmtb/phytest2019/"> the GMTB website </a> .
+and in <a href="https://dtcenter.org/eval/gmtb/phytest2019/"> the GMTB website </a> . 
 
 Table 1.  Physics suite options included in this documentation. 
 \tableofcontents
@@ -101,7 +101,7 @@ Table 1.  Physics suite options included in this documentation.
 | Microphysics     | \ref GFDL_cloud                   |  \ref GFDL_cloud     |  \ref CPT_MG3       | \ref GSD_THOMPSON    |
 | PBL/TURB         | \ref GFS_HEDMF                    |  \ref GFS_SATMEDMFQ  |  \ref GFS_HEDMF     | \ref GSD_MYNNEDMF    |
 | Land             | \ref GFS_NOAH                     |  \ref GFS_NOAH       |  \ref GFS_NOAH      | \ref GSD_RUCLSM      |
-| Gravity Wave Drag| \ref GFS_GWDPS and \ref GFS_GWDC
+| Gravity Wave Drag| \ref GFS_UGWPv0                   |  \ref GFS_UGWPv0
 \tableofcontents
 
 

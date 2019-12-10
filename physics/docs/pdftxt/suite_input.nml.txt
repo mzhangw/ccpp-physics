@@ -119,13 +119,19 @@ and how stochastic perturbations are used in the Noah Land Surface Model.
                                                       <li>    =2 future development (not yet)    
                                                       </ul>
                                                       <td>0 
-<tr><td>iaer            <td>gfs_control_type          <td>aerosol flag "abc" (volcanic, LW, SW): \n 
+<tr><td>iaer            <td>gfs_control_type          <td>4-digit aerosol flag (dabc for aermdl, volcanic, LW, SW): \n 
                                                       <ul>
-                                                      <li> a: stratospheric volcanic aerosols 
-                                                      <li> b: tropospheric aerosols for LW  
-                                                      <li> c: tropospheric aerosols for SW \n
-                                                      0: aerosol effect is not included; \n
-                                                      1: aerosol effect is included
+                                                      <li> d:tropospheric aerosol model scheme flag \n
+                                                             =0 or none, opac-climatology aerosol scheme \n 
+                                                             =1 use gocart climatology aerosol scheme \n
+                                                             =2 use gocart prognostic aerosol scheme \n
+                                                             =5 opac-clim new spectral mapping
+                                                      <li> a:=0 use background stratospheric aerosol  \n
+                                                             =1 include stratospheric volcanic aerosol
+                                                      <li> b:=0 no tropospheric aerosol in LW radiation \n 
+                                                             =1 include tropospheric aerosol in LW
+                                                      <li> c:=0 no tropospheric aerosol in SW radiation \n
+                                                             =1 include tropospheric aerosol in SW
                                                       </ul>
                                                       <td>1
 <tr><td>ico2            <td>gfs_control_type          <td>\f$CO_2\f$ data source control flag:\n 
@@ -170,6 +176,12 @@ and how stochastic perturbations are used in the Noah Land Surface Model.
 <tr><td>dspheat         <td>gfs_control_type          <td>logical flag for using TKE dissipative heating to temperature tendency in hybrid EDMF and TKE-EDMF schemes <td>.false.
 <tr><td>hybedmf         <td>gfs_control_type          <td>logical flag for calling hybrid EDMF PBL scheme        <td>.false.   
 <tr><td>satmedmf        <td>gfs_control_type          <td>logical flag for calling TKE EDMF PBL scheme           <td>.false.
+<tr><td>isatmedmf       <td>gfs_control_type          <td>flag for scale-aware TKE-based moist EDMF scheme \n
+                                                      <ul>
+                                                      <li> 0: initial version of satmedmf (Nov.2018)
+                                                      <li> 1: updated version of satmedmf (as of May 2019)
+                                                      </ul>
+                                                      <td> 0
 <tr><td>do_mynnedmf     <td>gfs_control_type          <td>flag to activate MYNN-EDMF scheme                      <td>.false.
 <tr><td>random_clds     <td>gfs_control_type          <td>logical flag for whether clouds are random             <td>.false.
 <tr><td>trans_trac      <td>gfs_control_type          <td>logical flag for convective transport of tracers       <td>.false.
@@ -196,7 +208,14 @@ and how stochastic perturbations are used in the Noah Land Surface Model.
                                                       </ul>
                                                       <td>1
 <tr><td>lgfdlmprad      <td>gfs_control_type          <td>flag for GFDL mp scheme and radiation consistency     <td>.false.
-<tr><td>cdmbgwd(2)      <td>gfs_control_type          <td>multiplication factors for mountain blocking and orographic gravity wave drag  <td>2.0,0.25
+<tr><td>cdmbgwd(4)      <td>gfs_control_type          <td>multiplication factors for mountain blocking(1), orographic gravity wave drag(2)  
+                                                      <ul>
+                                                      <li> [1]: GWDPS mountain blocking 
+                                                      <li> [2]: GWDPS orographic gravity wave drag
+                                                      <li> [3]: the modulation total momentum flux of NGWs by intensities of the total precipitation 
+                                                      <li> [4]: TKE for future tests and applications
+                                                      </ul>
+                                                      <td>2.0,0.25,1.0,1.0
 <tr><td>prslrd0         <td>gfs_control_type          <td>pressure level above which to apply Rayleigh damping    <td>0.0d0
 <tr><td>lsm             <td>gfs_control_type          <td>flag for land surface model to use    \n
                                                       <ul>
@@ -481,6 +500,19 @@ and how stochastic perturbations are used in the Noah Land Surface Model.
                                                              (4) \b knob_ugwp_wvspec[4] represents number of wave excited by dynamical imbalances that may mimic both convective and front-jet mechanisms of GW triggering. \n
                                                              In UGWP-v0, first two elements of the array, \b knob_ugwp_wvspec(1:2), control number of waves for stationary (OGW) and nonstationary waves (NGWs).
                                                          <td>1,32,32,32
-<tr><td>knob_ugwp_azdir   <td>cires_ugwp_module          <td>four-dimensional array that defines number of                                                       
+<tr><td>knob_ugwp_azdir   <td>cires_ugwp_module          <td>four-dimensional array that defines number of azimuths for propagation of GWs triggered by four types of physics-based sources (orography, convection, front-jets, and dynamical imbalance). In UGWP-v0, first two elements of the array, \b knob_ugwp_azdir(1:2), control number of azimuths for OGW and NGWs respectively.                                                      
+                                                         <td>2,4,4,4
+<tr><td>knob_ugwp_stoch   <td>cires_ugwp_module          <td>four-dimensional array that control stochastic selection of GWs triggered by four types of physics-based sources. \n
+                                                             Default values:0,0,0,0 - reflect determinstic selection of GW parameters without stochastic selection                                                       
+                                                         <td>0,0,0,0
+<tr><td>knob_ugwp_effac   <td>cires_ugwp_module          <td>four-dimensional array that control efficiency of GWs triggerd by four types of physics-based sources. \n
+                                                             Default values: 1.,1.,1.,1. - reflect that calculated GW-tendencies will be applied for the model state.
+                                                         <td>1.,1.,1.,1.
+<tr><td>launch_level      <td>cires_ugwp_module          <td>parameter has been introduced by EMC during implementation. It defines the interface model level from the surface at which NGWs are launched. \n
+                                                             Default value for FV3GFS-64L, launch_level=25 and for FV3GFS-128L, launch_level=52.
+                                                         <td>55 
+<tr><td>ldiag_ugwp        <td>GFS_control_type           <td>flag for CIRES UGWP diagnostics                                                        <td>.false.
+<tr><td>do_ugwp           <td>GFS_control_type           <td>flag for CIRES Unified Gravity Wave Drag Parameterization                              <td>.false.
+<tr><td>do_tofd           <td>GFS_control_type           <td>flag for turbulent orographic form drag                                                <td>.false.
 </table>
 */

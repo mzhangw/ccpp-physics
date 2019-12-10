@@ -193,13 +193,20 @@ INPUT                  =  pdftxt/mainpage.txt     \
                         ../mfscuq.f          \
                         ../tridi.f          \
 ### Orographic Gravity Wave
-###                        ../gwdps.f \
                         ../GFS_GWD_generic.F90 \
                         ../cires_ugwp.F90    \
                         ../gwdps.f \
                         ../ugwp_driver_v0.F \
                         ../cires_ugwp_triggers.F90 \
                         ../cires_ugwp_module.F90 \
+                        ../cires_ugwp_utils.F90 \
+                        ../cires_ugwp_solvers.F90 \
+                        ../cires_ugwp_post.F90   \
+                        ../cires_ugwp_initialize.F90 \
+                        ../cires_vert_wmsdis.F90 \
+                        ../cires_vert_orodis.F90 \
+                        ../cires_vert_lsatdis.F90  \
+
                     
 ### Rayleigh Dampling
                         ../rayleigh_damp.f  \
@@ -226,7 +233,7 @@ INPUT                  =  pdftxt/mainpage.txt     \
                         ../GFS_MP_generic.F90 \
                         ../calpreciptype.f90   \
 ### stochy
-###                     ../GFS_stochastics.F90   \
+                        ../GFS_stochastics.F90   \
 ###                     ../surface_perturbation.F90 \
 ###                     ../../stochastic_physics/stochastic_physics.F90  \
 ### CPT
