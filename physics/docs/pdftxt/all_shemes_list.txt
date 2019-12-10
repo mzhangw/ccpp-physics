@@ -101,7 +101,7 @@ Table 1.  Physics suite options included in this documentation.
 | Microphysics     | \ref GFDL_cloud                   |  \ref GFDL_cloud     |  \ref CPT_MG3       | \ref GSD_THOMPSON    |
 | PBL/TURB         | \ref GFS_HEDMF                    |  \ref GFS_SATMEDMFQ  |  \ref GFS_HEDMF     | \ref GSD_MYNNEDMF    |
 | Land             | \ref GFS_NOAH                     |  \ref GFS_NOAH       |  \ref GFS_NOAH      | \ref GSD_RUCLSM      |
-| Gravity Wave Drag| \ref GFS_UGWPv0                   |  \ref GFS_UGWPv0
+| Gravity Wave Drag| \ref GFS_UGWPv0                   |  \ref GFS_UGWPv0     |  \ref GFS_UGWPv0    | \ref GFS_UGWPv0      |
 \tableofcontents
 
 

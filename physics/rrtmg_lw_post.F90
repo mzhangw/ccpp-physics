@@ -1,4 +1,4 @@
-!>\file rrtmg_lw_post
+!>\file rrtmg_lw_post.F90
 !!This file contains
       module rrtmg_lw_post 
       contains

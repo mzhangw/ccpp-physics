@@ -121,7 +121,7 @@ INPUT                  =  pdftxt/mainpage.txt     \
                           pdftxt/GFS_RAYLEIGH.txt \
                           pdftxt/GFS_SAMF.txt     \
                           pdftxt/GFS_SAMFdeep.txt \
-                          pdftxt/GFS_GWDC.txt     \
+###                          pdftxt/GFS_GWDC.txt     \
                           pdftxt/GFS_SAMFshal.txt \
                           pdftxt/GFDL_cloud.txt   \
                           pdftxt/GFS_CALPRECIPTYPE.txt   \
@@ -201,13 +201,11 @@ INPUT                  =  pdftxt/mainpage.txt     \
                         ../cires_ugwp_module.F90 \
                         ../cires_ugwp_utils.F90 \
                         ../cires_ugwp_solvers.F90 \
-                        ../cires_ugwp_post.F90   \
-                        ../cires_ugwp_initialize.F90 \
+###                        ../cires_ugwp_post.F90   \
+###                        ../cires_ugwp_initialize.F90 \
                         ../cires_vert_wmsdis.F90 \
                         ../cires_vert_orodis.F90 \
                         ../cires_vert_lsatdis.F90  \
-
-                    
 ### Rayleigh Dampling
                         ../rayleigh_damp.f  \
 ### Prognostic Ozone
@@ -218,7 +216,7 @@ INPUT                  =  pdftxt/mainpage.txt     \
 ### Deep Convection
                         ../samfdeepcnv.f \
 ### Convective Gravity Wave
-                        ../gwdc.f \
+###                        ../gwdc.f \
 ### Shallow Convection
                         ../samfshalcnv.f \
                         ../cnvc90.f \
@@ -273,10 +271,7 @@ INPUT                  =  pdftxt/mainpage.txt     \
                         ../physparam.f      \
                         ../physcons.F90     \
                         ../radcons.f90      \
-                        ../mersenne_twister.f \  
-                        compns_stochy.F90   
-
-
+                        ../mersenne_twister.f   
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.f \
                          *.F \

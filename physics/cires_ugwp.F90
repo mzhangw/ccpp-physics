@@ -1,7 +1,11 @@
 !>  \file cires_ugwp.F90
-!! This file contains the Unified Gravity Wave Physics (UGWP) scheme by Valery Yudin (University of Colorado, CIRES)
+!! This file contains the Unified Gravity Wave Physics (UGWP) scheme by 
+!! Valery Yudin (University of Colorado, CIRES).
 !! See Valery Yudin's presentation at 2017 NGGPS PI meeting:
-!! Gravity waves (GWs): Mesoscale GWs transport momentum, energy (heat) , and create eddy mixing in the whole atmosphere domain; Breaking and dissipating GWs deposit: (a) momentum; (b) heat (energy); and create (c) turbulent mixing of momentum, heat, and tracers
+!! Gravity waves (GWs): Mesoscale GWs transport momentum, energy (heat), 
+!! and create eddy mixing in the whole atmosphere domain; Breaking and 
+!! dissipating GWs deposit: (a) momentum; (b) heat (energy); and create
+!! (c) turbulent mixing of momentum, heat, and tracers.
 !! To properly incorporate GW effects (a-c) unresolved by DYCOREs we need GW physics
 !! "Unified": a) all GW effects due to both dissipation/breaking; b) identical GW solvers for all GW sources; c) ability to replace solvers.
 !! Unified Formalism:
@@ -35,8 +39,6 @@ contains
 !> \section arg_table_cires_ugwp_init Argument Table
 !! \htmlinclude cires_ugwp_init.html
 !!
-! -----------------------------------------------------------------------
-!
     subroutine cires_ugwp_init (me, master, nlunit, input_nml_file, logunit, &
                 fn_nml2, lonr, latr, levs, ak, bk, dtp, cdmbgwd, cgwf,       &
                 pa_rf_in, tau_rf_in, con_p0, do_ugwp, errmsg, errflg)
@@ -135,8 +137,8 @@ contains
 ! -----------------------------------------------------------------------
 !  order = dry-adj=>conv=mp-aero=>radiation -sfc/land- chem -> vertdiff-> [rf-gws]=> ion-re
 ! -----------------------------------------------------------------------
+!>\defgroup cires_ugwp_run CIRES Unified Gravity Wave Physics (UGWP) Version 0 
 !>@brief These subroutines and modules execute the CIRES UGWP Version 0
-!>\defgroup cires_ugwp_run Unified Gravity Wave Physics General Algorithm
 !> @{
 !! The physics of NGWs in the UGWP framework (Yudin et al. 2018 \cite yudin_et_al_2018) is represented by four GW-solvers, which is introduced in Lindzen (1981) \cite lindzen_1981, Hines (1997) \cite hines_1997, Alexander and Dunkerton (1999) \cite alexander_and_dunkerton_1999, and Scinocca (2003) \cite scinocca_2003. The major modification of these GW solvers is represented by the addition of the background dissipation of temperature and winds to the saturation criteria for wave breaking. This feature is important in the mesosphere and thermosphere for WAM applications and it considers appropriate scale-dependent dissipation of waves near the model top lid providing the momentum and energy conservation in the vertical column physics (Shaw and Shepherd 2009 \cite shaw_and_shepherd_2009). In the UGWP-v0, the modification of Scinocca (2003) \cite scinocca_2003 scheme for NGWs with non-hydrostatic and rotational effects for GW propagations and background dissipation is represented by the subroutine \ref fv3_ugwp_solv2_v0. In the next release of UGWP, additional GW-solvers will be implemented along with physics-based triggering of waves and stochastic approaches for selection of GW modes characterized by horizontal phase velocities, azimuthal directions and magnitude of the vertical momentum flux (VMF).
 !!
@@ -145,8 +147,6 @@ contains
 !> \section arg_table_cires_ugwp_run Argument Table
 !! \htmlinclude cires_ugwp_run.html
 !!
-
-! subroutines original
      subroutine cires_ugwp_run(do_ugwp, me,  master, im,  levs, ntrac, dtp, kdt, lonr, &
          oro, oro_uf, hprime, nmtvr, oc, theta, sigma, gamma, elvmax, clx, oa4,        &
          do_tofd, ldiag_ugwp, cdmbgwd, xlat, xlat_d, sinlat, coslat, area,             &
