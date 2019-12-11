@@ -38,7 +38,8 @@ module GFS_rrtmg_setup
 
    contains
 
-!> \defgroup GFS_rrtmg_setup GFS RRTMG Scheme Setup
+!> \defgroup GFS_rrtmg_setup_grp GFS RRTMG Scheme Setup
+!! This module includes GFS RRTMG initialization.
 !! @{
 !! \section arg_table_GFS_rrtmg_setup_init Argument Table
 !! \htmlinclude GFS_rrtmg_setup_init.html

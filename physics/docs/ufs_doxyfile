@@ -2,7 +2,7 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "Common Community Physics Package (CCPP) Scientific Documentation"
 PROJECT_NUMBER         = ""
-PROJECT_BRIEF          = "Unified Forecast System"
+PROJECT_BRIEF          = "Unified Forecast System (UFS) 2020 Public Release"
 PROJECT_LOGO           = img/dtc_logo.png
 OUTPUT_DIRECTORY       = doc
 CREATE_SUBDIRS         = NO
@@ -29,8 +29,8 @@ OPTIMIZE_OUTPUT_FOR_C  = NO
 OPTIMIZE_OUTPUT_JAVA   = NO
 OPTIMIZE_FOR_FORTRAN   = YES
 OPTIMIZE_OUTPUT_VHDL   = NO
-EXTENSION_MAPPING      = .f=Fortranfixed \
-                         .F=Fortranfixed \
+EXTENSION_MAPPING      = .f=FortranFree \
+                         .F=FortranFree \
                          .F90=FortranFree  \
                          .f90=FortranFree
 MARKDOWN_SUPPORT       = YES
@@ -104,8 +104,8 @@ INPUT                  =  pdftxt/mainpage.txt     \
                           pdftxt/all_shemes_list.txt     \
                           pdftxt/GFSv15p2_suite.txt \
                           pdftxt/GFSv16beta_suite.txt \
-                          pdftxt/CPT_adv_suite.txt   \
                           pdftxt/GSD_adv_suite.txt \
+                          pdftxt/CPT_adv_suite.txt   \
                           pdftxt/GFS_RRTMG.txt    \
                           pdftxt/GFS_SFCLYR.txt   \
                           pdftxt/GFS_NSST.txt     \
@@ -153,13 +153,13 @@ INPUT                  =  pdftxt/mainpage.txt     \
                         ../sfcsub.F  \ 
                         ../gcycle.F90  \
 ### Radiation
-                        ../GFS_rrtmg_pre.F90             \
-                        ../rrtmg_sw_pre.F90              \
+###                        ../GFS_rrtmg_pre.F90             \
+###                        ../rrtmg_sw_pre.F90              \
                         ../radsw_main.f                  \
-                        ../rrtmg_sw_post.F90             \
-                        ../rrtmg_lw_pre.F90              \
+###                        ../rrtmg_sw_post.F90             \
+###                        ../rrtmg_lw_pre.F90              \
                         ../radlw_main.f                  \
-                        ../rrtmg_lw_post.F90             \
+###                        ../rrtmg_lw_post.F90             \
                         ../radiation_aerosols.f          \
                         ../radiation_astronomy.f         \
                         ../radiation_clouds.f            \

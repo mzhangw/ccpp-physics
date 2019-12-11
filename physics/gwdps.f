@@ -13,6 +13,7 @@
       end subroutine gwdps_init
 
 !> \defgroup gfs_gwdps GFS Orographic Gravity Wave Drag and Mountain Blocking Scheme Module
+!>\ingroup cires_ugwp_v0
 !! \brief This subroutine includes orographic gravity wave drag and mountain
 !! blocking.
 !!

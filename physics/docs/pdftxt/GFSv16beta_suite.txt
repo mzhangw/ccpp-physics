@@ -4,19 +4,18 @@
 \section gfsv16beta_suite_overview Overview
 
 With the initial operational implementation of FV3GFS now accomplished, EMC's global modeling focus will turn towards development of
-the next GFS (v16) upgrade, which is expected to include increased vertical resolution, more advanced physics, data assimilation 
-system upgrades, and coupling to a wave model. Implementation of GFSv16 is targeted for the winter of 2021. 
+the next GFS (v16) upgrade, which is expected to include significantly advanced model physics along with coupling to WaveWatch III wave
+model for improved parameterization of surface physics.  Implementation of GFSv16 is scheduled for the winter of 2021. Specifically,
+at least three new/improved parameterizations are targeted for implementation:
+- The Noah-MP land-surface model (LSM) is expected to replace the Noah LSM.
+- A unified Gravity Wave Physics (UGWP) parameterization, developed by Valery Yudin and collaborators, will replace the separate
+orographic and non-orographic gravity wave drag schemes currently being used.
+- The RRTMG radiation parameterization will be upgraded, leveraging collaborations between EMC scientists and multiple external partners
 
-GFSv16beta is a prototype of GFSv16 suite, which 
-will increase vertical resolution from 64 to 127 vertical levels and raise model top from 54 km to 80 km; increase
-horizontal resolution from 13 km to 10 km and include advanced physics chosen from physics test plan:
-- PBL/turbulence: \ref GFS_HEDMF -> \ref GFS_SATMEDMFQ 
-- Gravity Wave Drag: \ref GFS_UGWP
-- Radiation: updates to cloud-overlap assumptions
-- Microphysics: improvements to \ref GFDL_cloud
+In addition, new parameterizations for deep and shallow moist convection (CP), cloud microphysics (MP), and
+planetary boundary layer (PBLP)/turbulence are being considered for GFSv16. 
 
-
-The GFS v16beta physics suite uses the parameterizations in the following order:
+GFSv16beta herein can be considered  a up-to-date prototype of GFSv16 suite. The GFSv16beta physics suite uses the parameterizations in the following order:
  - \ref GFS_RRTMG
  - \ref GFS_SFCLYR
  - \ref GFS_NSST

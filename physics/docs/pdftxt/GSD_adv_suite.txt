@@ -1,5 +1,5 @@
 /**
-\page GSD_v0_page GSD_v0 Suite 
+\page GSD_v0_page GSD_vX Suite 
 
 \section gsd_suite_overview Overview
 

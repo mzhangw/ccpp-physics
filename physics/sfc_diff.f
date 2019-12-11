@@ -60,13 +60,13 @@
 !!\f]
 !! - Calculate the exchange coefficients:\f$cm\f$, \f$ch\f$, and \f$stress\f$ as inputs of other \a sfc schemes.
 !!
-      subroutine sfc_diff_run (im,rvrdm1,eps,epsm1,grav,                &  !intent(in)
-     &                    ps,t1,q1,z1,wind,                             &  !intent(in)
-     &                    prsl1,prslki,prsik1,prslk1,                   &  !intent(in)
-     &                    sigmaf,vegtype,shdmax,ivegsrc,                &  !intent(in)
-     &                    z0pert,ztpert,                                &  ! mg, sfc-perts !intent(in)
-     &                    flag_iter,redrag,                             &  !intent(in)
-     &                    u10m,v10m,sfc_z0_type,                        &  !hafs,z0 type !intent(in)
+      subroutine sfc_diff_run (im,rvrdm1,eps,epsm1,grav,                &  
+     &                    ps,t1,q1,z1,wind,                             & 
+     &                    prsl1,prslki,prsik1,prslk1,                   &
+     &                    sigmaf,vegtype,shdmax,ivegsrc,                &  
+     &                    z0pert,ztpert,                                & 
+     &                    flag_iter,redrag,                             &
+     &                    u10m,v10m,sfc_z0_type,                        &
      &                    wet,dry,icy,                                  &  !intent(in)
      &                    tskin_ocn, tskin_lnd, tskin_ice,              &  !intent(in)
      &                    tsurf_ocn, tsurf_lnd, tsurf_ice,              &  !intent(in)
@@ -361,11 +361,8 @@
 !----------------------------------------
 !>\ingroup GFS_diff_main
       subroutine stability                                              &
-!  ---  inputs:
-     &     ( z1, snwdph, thv1, wind, z0max, ztmax, tvs, grav,           &
-!  ---  outputs:
-     &       rb, fm, fh, fm10, fh2, cm, ch, stress, ustar)
-!-----
+     &     ( z1, snwdph, thv1, wind, z0max, ztmax, tvs, grav,           & !  ---  inputs
+     &       rb, fm, fh, fm10, fh2, cm, ch, stress, ustar)                !  ---  outputs
 
 !  ---  inputs:
       real(kind=kind_phys), intent(in) ::                               &
@@ -522,9 +519,9 @@
 !---------------------------------
 
 
+!>\ingroup GFS_diff_main
 !! add fitted z0,zt curves for hurricane application (used in HWRF/HMON)
-!! Weiguo Wang, 2019-0425
-
+!! \author Weiguo Wang, 2019-0425
       SUBROUTINE znot_m_v6(uref, znotm)
       use machine , only : kind_phys
       IMPLICIT NONE
@@ -571,6 +568,7 @@
 
       END SUBROUTINE znot_m_v6
 
+!>\ingroup GFS_diff_main
       SUBROUTINE znot_t_v6(uref, znott)
       use machine , only : kind_phys
       IMPLICIT NONE
@@ -635,7 +633,7 @@
 
       END SUBROUTINE znot_t_v6
 
-
+!>\ingroup GFS_diff_main
       SUBROUTINE znot_m_v7(uref, znotm)
       use machine , only : kind_phys
       IMPLICIT NONE
@@ -681,6 +679,7 @@
         print*, 'Wrong input uref value:',uref
       endif
 
+!>\ingroup GFS_diff_main
       END SUBROUTINE znot_m_v7
       SUBROUTINE znot_t_v7(uref, znott)
       use machine , only : kind_phys

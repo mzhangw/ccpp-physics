@@ -58,14 +58,14 @@
 !! \section detail_satmedmfvidfq GFS satmedmfvdifq Detailed Algorithm 
 !> @{
       subroutine satmedmfvdifq_run(ix,im,km,ntrac,ntcw,ntiw,ntke,       &
-     &     grav,rd,cp,rv,hvap,hfus,fv,eps,epsm1,                        &
-     &     dv,du,tdt,rtg,u1,v1,t1,q1,swh,hlw,xmu,garea,                 &
-     &     psk,rbsoil,zorl,u10m,v10m,fm,fh,                             &
-     &     tsea,heat,evap,stress,spd1,kpbl,                             &
-     &     prsi,del,prsl,prslk,phii,phil,delt,                          &
-     &     dspheat,dusfc,dvsfc,dtsfc,dqsfc,hpbl,                        &
-     &     kinver,xkzm_m,xkzm_h,xkzm_s,dspfac,bl_upfr,bl_dnfr,          &
-     &     errmsg,errflg)
+           grav,rd,cp,rv,hvap,hfus,fv,eps,epsm1,                        &
+           dv,du,tdt,rtg,u1,v1,t1,q1,swh,hlw,xmu,garea,                 &
+           psk,rbsoil,zorl,u10m,v10m,fm,fh,                             &
+           tsea,heat,evap,stress,spd1,kpbl,                             &
+           prsi,del,prsl,prslk,phii,phil,delt,                          &
+           dspheat,dusfc,dvsfc,dtsfc,dqsfc,hpbl,                        &
+           kinver,xkzm_m,xkzm_h,xkzm_s,dspfac,bl_upfr,bl_dnfr,          &
+           errmsg,errflg)
 !
       use machine  , only : kind_phys
       use funcphys , only : fpvs
