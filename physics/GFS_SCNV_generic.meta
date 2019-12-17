@@ -324,22 +324,6 @@
   type = integer
   intent = in
   optional = F
-[imfshalcnv_sas]
-  standard_name = flag_for_sas_shallow_convection_scheme
-  long_name = flag for SAS shallow convection scheme
-  units = flag
-  dimensions = ()
-  type = integer
-  intent = in
-  optional = F
-[imfshalcnv_samf]
-  standard_name = flag_for_samf_shallow_convection_scheme
-  long_name = flag for SAMF shallow convection scheme
-  units = flag
-  dimensions = ()
-  type = integer
-  intent = in
-  optional = F
 [errmsg]
   standard_name = ccpp_error_message
   long_name = error message for error handling in CCPP

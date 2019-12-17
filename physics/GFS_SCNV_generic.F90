@@ -71,7 +71,7 @@
         frain, gt0, gq0_water_vapor, save_t, save_qv, dqdti, dt3dt, dq3dt, clw,   &
         shcnvcw, rain1, npdf3d, num_p3d, ncnvcld3d, cnvc, cnvw,                   &
         rainc, cnvprcp, cnvprcpb, cnvw_phy_f3d, cnvc_phy_f3d,                     &
-        imfshalcnv, imfshalcnv_sas, imfshalcnv_samf, errmsg, errflg)
+        imfshalcnv, errmsg, errflg)
 
       use machine,               only: kind_phys
 
@@ -88,7 +88,7 @@
       real(kind=kind_phys), dimension(:,:), intent(inout) :: dt3dt, dq3dt
       real(kind=kind_phys), dimension(im,levs,nn), intent(inout) :: clw
 
-      ! Post code for SAS/SAMF
+      ! Post code for SAMF
       integer, intent(in) :: npdf3d, num_p3d, ncnvcld3d
       logical, intent(in) :: shcnvcw
       real(kind=kind_phys), dimension(im), intent(in) :: rain1
@@ -99,7 +99,7 @@
       ! use assumed-shape arrays. Note that Intel 18 and GNU 6.2.0-8.1.0 tolerate explicit-shape arrays
       ! as long as these do not get used when not allocated.
       real(kind=kind_phys), dimension(:,:), intent(inout) :: cnvw_phy_f3d, cnvc_phy_f3d
-      integer, intent(in) :: imfshalcnv, imfshalcnv_sas, imfshalcnv_samf
+      integer, intent(in) :: imfshalcnv
 
       character(len=*),              intent(out) :: errmsg
       integer,                       intent(out) :: errflg
@@ -111,7 +111,7 @@
       errmsg = ''
       errflg = 0
 
-      if (imfshalcnv==imfshalcnv_sas .or. imfshalcnv==imfshalcnv_samf) then
+      if (imfshalcnv==2) then
         do i=1,im
           rainc(i) = rainc(i) + frain * rain1(i)
         enddo
