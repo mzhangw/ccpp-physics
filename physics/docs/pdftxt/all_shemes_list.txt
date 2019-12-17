@@ -91,7 +91,7 @@ and in <a href="https://dtcenter.org/eval/gmtb/phytest2019/"> the GMTB website <
 
 Table 1.  Physics suite options included in this documentation. 
 \tableofcontents
-|   Phys suites    |      GFS_v15.2                    |      GFS_v16beta     |       csawmg        |        GSD_v0        |
+|   Phys suites    |     GFS_v15p2                     |   GFS_v16beta        |       csawmg        |    GSD_v1            |
 |------------------|-----------------------------------|----------------------|---------------------|----------------------|
 | Deep Cu          | \ref GFS_SAMFdeep                 |  \ref GFS_SAMFdeep   |  \ref CSAW_scheme   | \ref GSD_CU_GF       |
 | Shallow Cu       | \ref GFS_SAMFshal                 |  \ref GFS_SAMFshal   |  \ref GFS_SAMFshal  | \ref GSD_MYNNEDMF and \ref cu_gf_sh_group   |

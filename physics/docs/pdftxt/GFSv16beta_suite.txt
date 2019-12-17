@@ -1,5 +1,5 @@
 /**
-\page GFS_v16beta_page GFS_v16beta Suite 
+\page GFS_v16beta_page UFS GFS_v16beta Suite 
 
 \section gfsv16beta_suite_overview Overview
 

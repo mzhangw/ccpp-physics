@@ -1,5 +1,5 @@
 /**
-\page GFS_v15p2_page GFS_v15.2 Suite 
+\page GFS_v15p2_page UFS GFS_v15p2 Suite 
 
 \section gfs1_suite_overview Overview
 
