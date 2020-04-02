@@ -879,6 +879,15 @@
                          Model%iovr_lw, Model%iovr_sw,                  &
                          clouds,cldsa,mtopa,mbota, de_lgth)            !  --- outputs
 
+        elseif(Model%imp_physics == 15) then
+          call progcld2 (plyr,plvl,tlyr,qlyr,qstl,rhly,tvly,tracer1,&  !  --- inputs
+                         Grid%xlat,Grid%xlon,Sfcprop%slmsk,dz,delp, &
+                         ntrac-1, ntcw-1,ntiw-1,ntrw-1,             &
+                         im, lmk, lmp,                              &
+                         Model%lmfshal,Model%lmfdeep2,              &
+                         clouds,cldsa,mtopa,mbota, de_lgth)            !  --- outputs
+!  ---  output
+
         endif                            ! end if_imp_physics
 
 !      endif                                ! end_if_ntcw
