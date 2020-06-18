@@ -21,7 +21,6 @@
       subroutine GFS_rrtmg_pre_run (Model, Grid, Sfcprop, Statein,   & ! input
           Tbd, Cldprop, Coupling,                                    &
           Radtend, dx,                                               & ! input/output
-          f_ice, f_rain, f_rimef, flgmin, cwm,                       & ! F-A mp scheme only
           lm, im, lmk, lmp,                                          & ! input
           kd, kt, kb, raddt, delp, dz, plvl, plyr,                   & ! output
           tlvl, tlyr, tsfg, tsfa, qlyr, olyr,                        &
@@ -31,7 +30,7 @@
           faersw1,  faersw2,  faersw3,                               &
           faerlw1, faerlw2, faerlw3, aerodp,                         &
           clouds1, clouds2, clouds3, clouds4, clouds5, clouds6,      &
-          clouds7, clouds8, clouds9, cldsa,                          &
+          clouds7, clouds8, clouds9, cldcov, cldsa,                  &
           mtopa, mbota, de_lgth, alb1d, errmsg, errflg)
 
       use machine,                   only: kind_phys
@@ -92,12 +91,6 @@
       integer, intent(in)  :: im, lm, lmk, lmp
       integer, intent(out) :: kd, kt, kb
 
-! F-A mp scheme only
-      real(kind=kind_phys), dimension(size(Grid%xlon,1),Model%levr+LTP),   intent(in)  :: f_ice
-      real(kind=kind_phys), dimension(size(Grid%xlon,1),Model%levr+LTP),   intent(in)  :: f_rain
-      real(kind=kind_phys), dimension(size(Grid%xlon,1),Model%levr+LTP),   intent(in)  :: f_rimef
-      real(kind=kind_phys), dimension(size(Grid%xlon,1),Model%levr+LTP),   intent(out) :: cwm
-      real(kind=kind_phys), dimension(size(Grid%xlon,1)),                  intent(in)  :: flgmin
       real(kind=kind_phys), intent(out) :: raddt
 
       real(kind=kind_phys), dimension(size(Grid%xlon,1)),                  intent(in)  :: dx 
@@ -140,6 +133,8 @@
       real(kind=kind_phys), dimension(size(Grid%xlon,1),Model%levr+LTP),   intent(out) :: clouds7
       real(kind=kind_phys), dimension(size(Grid%xlon,1),Model%levr+LTP),   intent(out) :: clouds8
       real(kind=kind_phys), dimension(size(Grid%xlon,1),Model%levr+LTP),   intent(out) :: clouds9
+!mz: 3D cloud output
+      real(kind=kind_phys), dimension(size(Grid%xlon,1),Model%levr+LTP),   intent(out) :: cldcov
       real(kind=kind_phys), dimension(size(Grid%xlon,1),5),                intent(out) :: cldsa
       integer,              dimension(size(Grid%xlon,1),3),                intent(out) :: mbota
       integer,              dimension(size(Grid%xlon,1),3),                intent(out) :: mtopa
@@ -161,7 +156,7 @@
       real(kind=kind_phys), dimension(size(Grid%xlon,1),Model%levr+LTP) :: &
                           htswc, htlwc, gcice, grain, grime, htsw0, htlw0, &
                           rhly, tvly,qstl, vvel, clw, ciw, prslk1, tem2da, &
-                          cldcov, deltaq, cnvc, cnvw,                      &
+                          deltaq, cnvc, cnvw,                      &
                           effrl, effri, effrr, effrs, rho, plyrpa
 
       real(kind=kind_phys), dimension(size(Grid%xlon,1),Model%levr+LTP+1) :: tem2db
