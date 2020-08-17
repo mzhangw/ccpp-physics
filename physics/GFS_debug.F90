@@ -227,6 +227,7 @@
                      call print_var(mpirank,omprank, blkno, 'Tbd%acv'             , Tbd%acv)
                      call print_var(mpirank,omprank, blkno, 'Tbd%acvb'            , Tbd%acvb)
                      call print_var(mpirank,omprank, blkno, 'Tbd%acvt'            , Tbd%acvt)
+                     call print_var(mpirank,omprank, blkno, 'Tbd%hpbl'            , Tbd%hpbl)
                      if (Model%do_sppt) then
                        call print_var(mpirank,omprank, blkno, 'Tbd%dtdtr'         , Tbd%dtdtr)
                        call print_var(mpirank,omprank, blkno, 'Tbd%dtotprcp'      , Tbd%dtotprcp)
@@ -296,7 +297,6 @@
                      call print_var(mpirank,omprank, blkno, 'Diag%dpt2m       ',    Diag%dpt2m)
                      call print_var(mpirank,omprank, blkno, 'Diag%zlvl        ',    Diag%zlvl)
                      call print_var(mpirank,omprank, blkno, 'Diag%psurf       ',    Diag%psurf)
-                     call print_var(mpirank,omprank, blkno, 'Diag%hpbl        ',    Diag%hpbl)
                      call print_var(mpirank,omprank, blkno, 'Diag%pwat        ',    Diag%pwat)
                      call print_var(mpirank,omprank, blkno, 'Diag%t1          ',    Diag%t1)
                      call print_var(mpirank,omprank, blkno, 'Diag%q1          ',    Diag%q1)
@@ -312,6 +312,7 @@
                      call print_var(mpirank,omprank, blkno, 'Diag%tdomzr      ',    Diag%tdomzr)
                      call print_var(mpirank,omprank, blkno, 'Diag%tdomip      ',    Diag%tdomip)
                      call print_var(mpirank,omprank, blkno, 'Diag%tdoms       ',    Diag%tdoms)
+                     ! CCPP/RUC only
                      if (Model%lsm == Model%lsm_ruc) then
                        call print_var(mpirank,omprank, blkno, 'Diag%wet1        ',  Sfcprop%wetness)
                      else
@@ -347,16 +348,23 @@
                      if(Model%lradar) then
                        call print_var(mpirank,omprank, blkno, 'Diag%refl_10cm   ',  Diag%refl_10cm)
                      end if
+                     ! CCPP/MYNNPBL only
                      if (Model%do_mynnedmf) then
-                       call print_var(mpirank,omprank, blkno, 'Diag%edmf_a      ',  Diag%edmf_a)
-                       call print_var(mpirank,omprank, blkno, 'Diag%edmf_w      ',  Diag%edmf_w)
-                       call print_var(mpirank,omprank, blkno, 'Diag%edmf_qt     ',  Diag%edmf_qt)
-                       call print_var(mpirank,omprank, blkno, 'Diag%edmf_thl    ',  Diag%edmf_thl)
-                       call print_var(mpirank,omprank, blkno, 'Diag%edmf_ent    ',  Diag%edmf_ent)
-                       call print_var(mpirank,omprank, blkno, 'Diag%edmf_qc     ',  Diag%edmf_qc)
+                       if (Model%bl_mynn_output .ne. 0) then
+                         call print_var(mpirank,omprank, blkno, 'Diag%edmf_a      ',  Diag%edmf_a)
+                         call print_var(mpirank,omprank, blkno, 'Diag%edmf_w      ',  Diag%edmf_w)
+                         call print_var(mpirank,omprank, blkno, 'Diag%edmf_qt     ',  Diag%edmf_qt)
+                         call print_var(mpirank,omprank, blkno, 'Diag%edmf_thl    ',  Diag%edmf_thl)
+                         call print_var(mpirank,omprank, blkno, 'Diag%edmf_ent    ',  Diag%edmf_ent)
+                         call print_var(mpirank,omprank, blkno, 'Diag%edmf_qc     ',  Diag%edmf_qc)
+                         call print_var(mpirank,omprank, blkno, 'Diag%sub_thl     ',  Diag%sub_thl)
+                         call print_var(mpirank,omprank, blkno, 'Diag%sub_sqv     ',  Diag%sub_sqv)
+                         call print_var(mpirank,omprank, blkno, 'Diag%det_thl     ',  Diag%det_thl)
+                         call print_var(mpirank,omprank, blkno, 'Diag%det_sqv     ',  Diag%det_sqv)
+                       end if
                        call print_var(mpirank,omprank, blkno, 'Diag%nupdraft    ',  Diag%nupdraft)
                        call print_var(mpirank,omprank, blkno, 'Diag%maxMF       ',  Diag%maxMF)
-                       call print_var(mpirank,omprank, blkno, 'Diag%ktop_shallow',  Diag%ktop_shallow)
+                       call print_var(mpirank,omprank, blkno, 'Diag%ktop_plume  ',  Diag%ktop_plume)
                        call print_var(mpirank,omprank, blkno, 'Diag%exch_h      ',  Diag%exch_h)
                        call print_var(mpirank,omprank, blkno, 'Diag%exch_m      ',  Diag%exch_m)
                      end if
@@ -404,9 +412,9 @@
                         call print_var(mpirank,omprank, blkno, 'Coupling%rain_cpl', Coupling%rain_cpl)
                         call print_var(mpirank,omprank, blkno, 'Coupling%snow_cpl', Coupling%snow_cpl)
                      end if
-                     if (Model%cplwav2atm) then
-                        call print_var(mpirank,omprank, blkno, 'Coupling%zorlwav_cpl' , Coupling%zorlwav_cpl  )
-                     end if
+!                    if (Model%cplwav2atm) then
+!                       call print_var(mpirank,omprank, blkno, 'Coupling%zorlwav_cpl' , Coupling%zorlwav_cpl  )
+!                    end if
                      if (Model%cplflx) then
                         call print_var(mpirank,omprank, blkno, 'Coupling%oro_cpl'     , Coupling%oro_cpl      )
                         call print_var(mpirank,omprank, blkno, 'Coupling%slmsk_cpl'   , Coupling%slmsk_cpl    )
@@ -416,10 +424,10 @@
                         call print_var(mpirank,omprank, blkno, 'Coupling%dtsfcin_cpl ', Coupling%dtsfcin_cpl  )
                         call print_var(mpirank,omprank, blkno, 'Coupling%dqsfcin_cpl ', Coupling%dqsfcin_cpl  )
                         call print_var(mpirank,omprank, blkno, 'Coupling%ulwsfcin_cpl', Coupling%ulwsfcin_cpl )
-                        call print_var(mpirank,omprank, blkno, 'Coupling%tseain_cpl  ', Coupling%tseain_cpl   )
-                        call print_var(mpirank,omprank, blkno, 'Coupling%tisfcin_cpl ', Coupling%tisfcin_cpl  )
-                        call print_var(mpirank,omprank, blkno, 'Coupling%ficein_cpl  ', Coupling%ficein_cpl   )
-                        call print_var(mpirank,omprank, blkno, 'Coupling%hicein_cpl  ', Coupling%hicein_cpl   )
+!                       call print_var(mpirank,omprank, blkno, 'Coupling%tseain_cpl  ', Coupling%tseain_cpl   )
+!                       call print_var(mpirank,omprank, blkno, 'Coupling%tisfcin_cpl ', Coupling%tisfcin_cpl  )
+!                       call print_var(mpirank,omprank, blkno, 'Coupling%ficein_cpl  ', Coupling%ficein_cpl   )
+!                       call print_var(mpirank,omprank, blkno, 'Coupling%hicein_cpl  ', Coupling%hicein_cpl   )
                         call print_var(mpirank,omprank, blkno, 'Coupling%hsnoin_cpl  ', Coupling%hsnoin_cpl   )
                         call print_var(mpirank,omprank, blkno, 'Coupling%dusfc_cpl   ', Coupling%dusfc_cpl    )
                         call print_var(mpirank,omprank, blkno, 'Coupling%dvsfc_cpl   ', Coupling%dvsfc_cpl    )
