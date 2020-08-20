@@ -9,6 +9,14 @@
   type = integer
   intent = in
   optional = F
+[lkm]
+  standard_name = flag_for_lake_surface_scheme
+  long_name = flag for lake surface model
+  units = flag
+  dimensions = ()
+  type = integer
+  intent = in
+  optional = F
 [frac_grid]
   standard_name = flag_for_fractional_grid
   long_name = flag for fractional grid
@@ -54,6 +62,15 @@
   standard_name = lake_area_fraction
   long_name = fraction of horizontal grid area occupied by lake
   units = frac
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = in
+  optional = F
+[lakedepth]
+  standard_name = lake_depth
+  long_name = lake depth
+  units = m
   dimensions = (horizontal_dimension)
   type = real
   kind = kind_phys
@@ -156,6 +173,15 @@
 [zorll]
   standard_name = surface_roughness_length_over_land
   long_name = surface roughness length over land
+  units = cm
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = inout
+  optional = F
+[zorli]
+  standard_name = surface_roughness_length_over_ice
+  long_name = surface roughness length over ice
   units = cm
   dimensions = (horizontal_dimension)
   type = real
@@ -269,6 +295,15 @@
   type = real
   kind = kind_phys
   intent = in
+  optional = F
+[uustar_wat]
+  standard_name = surface_friction_velocity_over_ocean
+  long_name = surface friction velocity over ocean
+  units = m s-1
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = inout
   optional = F
 [uustar_lnd]
   standard_name = surface_friction_velocity_over_land
@@ -503,10 +538,82 @@
   kind = kind_phys
   intent = inout
   optional = F
+[qss]
+  standard_name = surface_specific_humidity
+  long_name = surface air saturation specific humidity
+  units = kg kg-1
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = in
+  optional = F
+[qss_wat]
+  standard_name = surface_specific_humidity_over_ocean
+  long_name = surface air saturation specific humidity over ocean
+  units = kg kg-1
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = inout
+  optional = F
+[qss_lnd]
+  standard_name = surface_specific_humidity_over_land
+  long_name = surface air saturation specific humidity over land
+  units = kg kg-1
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = inout
+  optional = F
+[qss_ice]
+  standard_name = surface_specific_humidity_over_ice
+  long_name = surface air saturation specific humidity over ice
+  units = kg kg-1
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = inout
+  optional = F
+[hflx]
+  standard_name = kinematic_surface_upward_sensible_heat_flux
+  long_name = kinematic surface upward sensible heat flux
+  units = K m s-1
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = in
+  optional = F
+[hflx_wat]
+  standard_name = kinematic_surface_upward_sensible_heat_flux_over_ocean
+  long_name = kinematic surface upward sensible heat flux over ocean
+  units = K m s-1
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = inout
+  optional = F
+[hflx_lnd]
+  standard_name = kinematic_surface_upward_sensible_heat_flux_over_land
+  long_name = kinematic surface upward sensible heat flux over land
+  units = K m s-1
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = inout
+  optional = F
+[hflx_ice]
+  standard_name = kinematic_surface_upward_sensible_heat_flux_over_ice
+  long_name = kinematic surface upward sensible heat flux over ice
+  units = K m s-1
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = inout
+  optional = F
 [min_lakeice]
   standard_name = lake_ice_minimum
   long_name = minimum lake ice value
-  units = ???
+  units = frac
   dimensions = ()
   type = real
   kind = kind_phys
@@ -515,7 +622,7 @@
 [min_seaice]
   standard_name = sea_ice_minimum
   long_name = minimum sea ice value
-  units = ???
+  units = frac
   dimensions = ()
   type = real
   kind = kind_phys
@@ -638,6 +745,15 @@
   kind = kind_phys
   intent = inout
   optional = F
+[adjsfcusw]
+  standard_name = surface_upwelling_shortwave_flux
+  long_name = surface upwelling shortwave flux at current time
+  units = W m-2
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = out
+  optional = F
 [adjsfcdsw]
   standard_name = surface_downwelling_shortwave_flux
   long_name = surface downwelling shortwave flux at current time
@@ -655,15 +771,6 @@
   type = real
   kind = kind_phys
   intent = in
-  optional = F
-[adjsfcusw]
-  standard_name = surface_upwelling_shortwave_flux
-  long_name = surface upwelling shortwave flux at current time
-  units = W m-2
-  dimensions = (horizontal_dimension)
-  type = real
-  kind = kind_phys
-  intent = out
   optional = F
 [errmsg]
   standard_name = ccpp_error_message
@@ -823,6 +930,15 @@
 [zorll]
   standard_name = surface_roughness_length_over_land
   long_name = surface roughness length over land
+  units = cm
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = inout
+  optional = F
+[zorli]
+  standard_name = surface_roughness_length_over_ice
+  long_name = surface roughness length over ice
   units = cm
   dimensions = (horizontal_dimension)
   type = real
@@ -1666,6 +1782,14 @@
   kind = kind_phys
   intent = inout
   optional = F
+[min_seaice]
+  standard_name = sea_ice_minimum
+  long_name = minimum sea ice value
+  units = frac
+  dimensions = ()
+  type = real
+  kind = kind_phys
+  intent = in
 [tiice]
   standard_name = internal_ice_temperature
   long_name = sea ice internal temperature

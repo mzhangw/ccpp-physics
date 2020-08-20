@@ -11,8 +11,7 @@
 
       public GFS_surface_generic_pre_init, GFS_surface_generic_pre_finalize, GFS_surface_generic_pre_run
 
-      real(kind=kind_phys), parameter :: one = 1.0d0
-      real(kind=kind_phys), parameter :: zero = 0.0d0
+      real(kind=kind_phys), parameter :: zero = 0.0_kind_phys, one = 1.0_kind_phys
 
       contains
 
@@ -109,18 +108,18 @@
         ! Scale random patterns for surface perturbations with perturbation size
         ! Turn vegetation fraction pattern into percentile pattern
         if (do_sfcperts) then
-          if (pertz0(1) > 0.) then
+          if (pertz0(1) > zero) then
             z01d(:) = pertz0(1) * sfc_wts(:,1)
 !            if (me == 0) print*,'sfc_wts(:,1) min and max',minval(sfc_wts(:,1)),maxval(sfc_wts(:,1))
 !            if (me == 0) print*,'z01d min and max ',minval(z01d),maxval(z01d)
           endif
-          if (pertzt(1) > 0.) then
+          if (pertzt(1) > zero) then
             zt1d(:) = pertzt(1) * sfc_wts(:,2)
           endif
-          if (pertshc(1) > 0.) then
+          if (pertshc(1) > zero) then
             bexp1d(:) = pertshc(1) * sfc_wts(:,3)
           endif
-          if (pertlai(1) > 0.) then
+          if (pertlai(1) > zero) then
             xlai1d(:) = pertlai(1) * sfc_wts(:,4)
           endif
 !   --- do the albedo percentile calculation in GFS_radiation_driver instead --- !
@@ -130,7 +129,7 @@
 !              alb1d(i) = cdfz
 !            enddo
 !          endif
-          if (pertvegf(1) > 0.) then
+          if (pertvegf(1) > zero) then
             do i=1,im
               call cdfnor(sfc_wts(i,6),cdfz)
               vegf1d(i) = cdfz
@@ -141,7 +140,8 @@
         ! End of stochastic physics / surface perturbation
 
         do i=1,im
-          sigmaf(i) = max(vfrac(i),0.01 )
+          sigmaf(i) = max(vfrac(i), 0.01_kind_phys)
+          islmsk_cice(i) = islmsk(i)
           if (islmsk(i) == 2) then
             if (isot == 1) then
               soiltyp(i)  = 16
@@ -159,9 +159,9 @@
             endif
             slopetyp(i) = 9
           else
-            soiltyp(i)  = int( stype(i)+0.5 )
-            vegtype(i)  = int( vtype(i)+0.5 )
-            slopetyp(i) = int( slope(i)+0.5 )    !! clu: slope -> slopetyp
+            soiltyp(i)  = int( stype(i)+0.5_kind_phys )
+            vegtype(i)  = int( vtype(i)+0.5_kind_phys )
+            slopetyp(i) = int( slope(i)+0.5_kind_phys )    !! clu: slope -> slopetyp
             if (soiltyp(i)  < 1) soiltyp(i)  = 14
             if (vegtype(i)  < 1) vegtype(i)  = 17
             if (slopetyp(i) < 1) slopetyp(i) = 1
@@ -175,7 +175,7 @@
           smcref2(i) = zero
 
           wind(i)  = max(sqrt(u1(i)*u1(i) + v1(i)*v1(i))   &
-                         + max(zero, min(cnvwind(i), 30.0)), one)
+                         + max(zero, min(cnvwind(i), 30.0_kind_phys)), one)
           !wind(i)  = max(sqrt(Statein%ugrs(i,1)*Statein%ugrs(i,1) + &
           !                         Statein%vgrs(i,1)*Statein%vgrs(i,1))  &
           !              + max(zero, min(Tbd%phy_f2d(i,Model%num_p2d), 30.0)), one)
@@ -205,7 +205,7 @@
 
       public GFS_surface_generic_post_init, GFS_surface_generic_post_finalize, GFS_surface_generic_post_run
 
-      real(kind=kind_phys), parameter :: zero = 0.0, one = 1.0d0
+      real(kind=kind_phys), parameter :: zero = 0.0_kind_phys, one = 1.0_kind_phys
 
       contains
 
@@ -225,7 +225,7 @@
         dvisdfi_cpl, dnirbm_cpl, dnirdf_cpl, dvisbm_cpl, dvisdf_cpl, nlwsfci_cpl, nlwsfc_cpl, t2mi_cpl, q2mi_cpl, u10mi_cpl,        &
         v10mi_cpl, tsfci_cpl, psurfi_cpl, nnirbmi_cpl, nnirdfi_cpl, nvisbmi_cpl, nvisdfi_cpl, nswsfci_cpl, nswsfc_cpl, nnirbm_cpl,  &
         nnirdf_cpl, nvisbm_cpl, nvisdf_cpl, gflux, evbsa, evcwa, transa, sbsnoa, snowca, snohfa, ep,                                &
-        runoff, srunoff, runof, drain, errmsg, errflg)
+        runoff, srunoff, runof, drain, lheatstrg, z0fac, e0fac, zorl, hflx, evap, hflxq, evapq, hffac, hefac, errmsg, errflg)
 
         implicit none
 
@@ -247,13 +247,28 @@
         real(kind=kind_phys), dimension(im), intent(inout) :: runoff, srunoff
         real(kind=kind_phys), dimension(im), intent(in)    :: drain, runof
 
+        ! For canopy heat storage
+        logical, intent(in) :: lheatstrg
+        real(kind=kind_phys), intent(in) :: z0fac, e0fac
+        real(kind=kind_phys), dimension(im), intent(in)  :: zorl
+        real(kind=kind_phys), dimension(im), intent(in)  :: hflx,  evap
+        real(kind=kind_phys), dimension(im), intent(out) :: hflxq, evapq
+        real(kind=kind_phys), dimension(im), intent(out) :: hffac, hefac
+
+        ! CCPP error handling variables
         character(len=*), intent(out) :: errmsg
         integer,          intent(out) :: errflg
 
-        real(kind=kind_phys), parameter :: albdf   = 0.06d0
+        ! Local variables
+        real(kind=kind_phys), parameter :: albdf = 0.06_kind_phys
+
+        ! Parameters for canopy heat storage parametrization
+        real(kind=kind_phys), parameter :: z0min=0.2, z0max=1.0
+        real(kind=kind_phys), parameter :: u10min=2.5, u10max=7.5
 
         integer :: i
         real(kind=kind_phys) :: xcosz_loc, ocalnirdf_cpl, ocalnirbm_cpl, ocalvisdf_cpl, ocalvisbm_cpl
+        real(kind=kind_phys) :: tem, tem1, tem2
 
         ! Initialize CCPP error handling variables
         errmsg = ''
@@ -308,12 +323,12 @@
 !           if (Sfcprop%landfrac(i) < one) then ! Not 100% land
             if (wet(i)) then                    ! some open water 
 !  ---  compute open water albedo
-              xcosz_loc = max( 0.0, min( 1.0, xcosz(i) ))
-              ocalnirdf_cpl = 0.06
-              ocalnirbm_cpl = max(albdf, 0.026/(xcosz_loc**1.7+0.065)  &
-       &                       + 0.15 * (xcosz_loc-0.1) * (xcosz_loc-0.5) &
-       &                       * (xcosz_loc-1.0))
-              ocalvisdf_cpl = 0.06
+              xcosz_loc = max( zero, min( one, xcosz(i) ))
+              ocalnirdf_cpl = 0.06_kind_phys
+              ocalnirbm_cpl = max(albdf, 0.026_kind_phys/(xcosz_loc**1.7_kind_phys+0.065_kind_phys)     &
+       &                       + 0.15_kind_phys * (xcosz_loc-0.1_kind_phys) * (xcosz_loc-0.5_kind_phys) &
+       &                       * (xcosz_loc-one))
+              ocalvisdf_cpl = 0.06_kind_phys
               ocalvisbm_cpl = ocalnirbm_cpl
 
               nnirbmi_cpl(i) = adjnirbmd(i) * (one-ocalnirbm_cpl)
@@ -327,7 +342,7 @@
               nvisdfi_cpl(i) = adjvisdfd(i) - adjvisdfu(i)
             endif
             nswsfci_cpl(i) = nnirbmi_cpl(i) + nnirdfi_cpl(i)   &
-                            + nvisbmi_cpl(i) + nvisdfi_cpl(i)
+                           + nvisbmi_cpl(i) + nvisdfi_cpl(i)
             nswsfc_cpl(i)  = nswsfc_cpl(i)  + nswsfci_cpl(i)*dtf
             nnirbm_cpl(i)  = nnirbm_cpl(i)  + nnirbmi_cpl(i)*dtf
             nnirdf_cpl(i)  = nnirdf_cpl(i)  + nnirdfi_cpl(i)*dtf
@@ -346,15 +361,40 @@
             snowca(i)  = snowca(i) + snowc(i) * dtf
             snohfa(i)  = snohfa(i) + snohf(i) * dtf
             ep(i)      = ep(i)     + ep1d(i)  * dtf
-          enddo
-        endif
 
 !  --- ...  total runoff is composed of drainage into water table and
 !           runoff at the surface and is accumulated in unit of meters
-        if (lssav) then
-          do i=1,im
             runoff(i)  = runoff(i)  + (drain(i)+runof(i)) * dtf
             srunoff(i) = srunoff(i) + runof(i) * dtf
+          enddo
+        endif
+
+!  --- ...  Boundary Layer and Free atmospheic turbulence parameterization
+!
+!  in order to achieve heat storage within canopy layer, in the canopy heat
+!    storage parameterization the kinematic sensible and latent heat fluxes
+!    (hflx & evap) as surface boundary forcings to the pbl scheme are
+!    reduced as a function of surface roughness
+!
+        do i=1,im
+          hflxq(i) = hflx(i)
+          evapq(i) = evap(i)
+          hffac(i) = 1.0
+          hefac(i) = 1.0
+        enddo
+        if (lheatstrg) then
+          do i=1,im
+            tem = 0.01 * zorl(i)     ! change unit from cm to m
+            tem1 = (tem - z0min) / (z0max - z0min)
+            hffac(i) = z0fac * min(max(tem1, 0.0), 1.0)
+            tem = sqrt(u10m(i)**2+v10m(i)**2)
+            tem1 = (tem - u10min) / (u10max - u10min)
+            tem2 = 1.0 - min(max(tem1, 0.0), 1.0)
+            hffac(i) = tem2 * hffac(i)
+            hefac(i) = 1. + e0fac * hffac(i)
+            hffac(i) = 1. + hffac(i)
+            hflxq(i) = hflx(i) / hffac(i)
+            evapq(i) = evap(i) / hefac(i)
           enddo
         endif
 
