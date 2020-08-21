@@ -540,7 +540,6 @@
   dimensions = ()
   type = real
   kind = kind_phys
-=======
 [ldiag3d]
   standard_name = flag_diagnostics_3D
   long_name = flag for 3d diagnostic fields
@@ -624,7 +623,6 @@
   units = flag
   dimensions = ()
   type = logical
->>>>>>> 09c4ee3335d7e1e1c5433f390db38658aac3525d
   intent = in
   optional = F
 [errmsg]

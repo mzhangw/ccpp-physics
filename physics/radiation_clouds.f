@@ -246,8 +246,8 @@
       public progcld1, progcld2, progcld3, progcld4, progclduni,        &
      &       cld_init, progcld5, progcld6, progcld4o, cal_cldfra3,      &
      &       find_cloudLayers, adjust_cloudIce, adjust_cloudH2O,        &
-     &       adjust_cloudFinal
-     &     get_alpha_dcorr, get_alpha_exp, gethml
+     &       adjust_cloudFinal,                                         &
+     &       get_alpha_dcorr, get_alpha_exp, gethml
 
 
 ! =================
@@ -3806,10 +3806,10 @@
       end subroutine gethml
 !-----------------------------------
 !! @}
- ! #########################################################################################
-  ! Subroutine to compute cloud-overlap parameter, alpha, for decorrelation-length cloud
-  ! overlap assumption.
-  ! #########################################################################################
+! #########################################################################################
+! Subroutine to compute cloud-overlap parameter, alpha, for decorrelation-length cloud
+! overlap assumption.
+! #########################################################################################
       subroutine get_alpha_dcorr(nCol, nLev, lat, con_pi, deltaZ,       &
      &     de_lgth, cloud_overlap_param)
       
