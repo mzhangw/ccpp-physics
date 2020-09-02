@@ -532,7 +532,7 @@
   units = flag
   dimensions = (horizontal_dimension)
   type = integer
-  intent = inout
+  intent = out
   optional = F
 [ddvel]
   standard_name = surface_wind_enhancement_due_to_convection

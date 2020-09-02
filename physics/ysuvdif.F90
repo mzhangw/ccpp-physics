@@ -89,7 +89,9 @@
 ! output variables
    integer,  dimension( im ), intent(out  )   ::                       kpbl1d
    real(kind=kind_phys),     dimension( im ),                                       &
-             intent(out)   ::                                            hpbl
+             intent(out)   ::                                            hpbl,      &
+                                                                  dusfc,dvsfc,      &
+                                                                  dtsfc,dqsfc
 
    ! error messages
    character(len=*), intent(out)    ::                                 errmsg
@@ -119,8 +121,6 @@
                                                                   hgamt,hgamq, &
                                                                     brdn,brup, &
                                                                     phim,phih, &
-                                                                  dusfc,dvsfc, &
-                                                                  dtsfc,dqsfc, &
                                                                         prpbl, &
                                                               wspd1,thermalli
 !

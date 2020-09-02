@@ -87,7 +87,8 @@
       implicit none
 !
       integer, parameter  :: kp = kind_phys
-      integer, intent(in) :: im, ivegsrc
+      integer, intent(in) :: im
+      integer, intent(in) :: ivegsrc
       integer, intent(in) :: sfc_z0_type ! option for calculating surface roughness length over ocean
 
       integer, dimension(im), intent(in) :: vegtype

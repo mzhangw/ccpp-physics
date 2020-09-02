@@ -659,12 +659,12 @@ cc
 !! surface in the GFS physics suite. The other two are the Noah land
 !! surface model and the sice simplified ice model.
 !!
-!! \section arg_table_sfc_nst_init  Argument Table
+!! \section arg_table_sfc_nst_pre_init  Argument Table
 !!
       subroutine sfc_nst_pre_init
       end subroutine sfc_nst_pre_init
 
-!! \section arg_table_sfc_nst_finalize  Argument Table
+!! \section arg_table_sfc_nst_pre_finalize  Argument Table
 !!
       subroutine sfc_nst_pre_finalize
       end subroutine sfc_nst_pre_finalize
@@ -810,7 +810,7 @@ cc
      &      tsfc_wat
 
 !  ---  outputs:
-      real (kind=kind_phys), dimension(size(xlon,1)), intent(out) ::    &
+      real (kind=kind_phys), dimension(im), intent(out) ::              &
      &      dtzm
 
       character(len=*), intent(out) :: errmsg
