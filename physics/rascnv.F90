@@ -332,12 +332,13 @@
 !
       real(kind=kind_phys), dimension(im,k), intent(inout) :: tin, qin, &
      &                                                        uin, vin 
-      real(kind=kind_phys), dimension(im,k)   ::   &
+      real(kind=kind_phys), dimension(im,k), intent(in)  ::             &
      &,                                          prsl, prslk, phil
-      real(kind=kind_phys), dimension(im,k+1) :: prsi, prsik, phii
+      real(kind=kind_phys), dimension(im,k+1), intent(in) ::            &
+     &                                           prsi, prsik, phii
       real(kind=kind_phys), dimension(im,k),intent(out) :: ud_mf,       &
-     &                                           dd_mf, dt_mf           &
-     &,                                          qlcn, qicn
+     &                                                dd_mf, dt_mf 
+      real(kind=kind_phys), dimension(im,k),intent(inout) ::  qlcn, qicn
       real(kind=kind_phys), dimension(im,k), intent(inout)   :: clcn,   &
      &,                                          cnv_mfd                &
      &,                                          cnv_dqldt              &

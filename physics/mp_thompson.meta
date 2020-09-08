@@ -227,7 +227,7 @@
   dimensions = (horizontal_dimension,vertical_dimension)
   type = real
   kind = kind_phys
-  intent = inout
+  intent = out
   optional = T
 [re_ice]
   standard_name = effective_radius_of_stratiform_cloud_ice_particle_in_um
@@ -236,7 +236,7 @@
   dimensions = (horizontal_dimension,vertical_dimension)
   type = real
   kind = kind_phys
-  intent = inout
+  intent = out
   optional = T
 [re_snow]
   standard_name = effective_radius_of_stratiform_cloud_snow_particle_in_um
@@ -245,7 +245,7 @@
   dimensions = (horizontal_dimension,vertical_dimension)
   type = real
   kind = kind_phys
-  intent = inout
+  intent = out
   optional = T
 [mpicomm]
   standard_name = mpi_comm
@@ -512,7 +512,7 @@
   dimensions = (horizontal_dimension)
   type = real
   kind = kind_phys
-  intent = inout
+  intent = out
   optional = F
 [rain]
   standard_name = lwe_thickness_of_explicit_rain_amount
@@ -521,7 +521,7 @@
   dimensions = (horizontal_dimension)
   type = real
   kind = kind_phys
-  intent = inout
+  intent = out
   optional = F
 [graupel]
   standard_name = lwe_thickness_of_graupel_amount
@@ -530,7 +530,7 @@
   dimensions = (horizontal_dimension)
   type = real
   kind = kind_phys
-  intent = inout
+  intent = out
   optional = F
 [ice]
   standard_name = lwe_thickness_of_ice_amount
@@ -539,7 +539,7 @@
   dimensions = (horizontal_dimension)
   type = real
   kind = kind_phys
-  intent = inout
+  intent = out
   optional = F
 [snow]
   standard_name = lwe_thickness_of_snow_amount
@@ -548,7 +548,7 @@
   dimensions = (horizontal_dimension)
   type = real
   kind = kind_phys
-  intent = inout
+  intent = out
   optional = F
 [sr]
   standard_name = ratio_of_snowfall_to_rainfall
