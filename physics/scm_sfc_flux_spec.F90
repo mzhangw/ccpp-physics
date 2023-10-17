@@ -60,7 +60,8 @@ module scm_sfc_flux_spec
     integer, intent(in)    :: im, lkm
     integer, intent(inout) :: islmsk(:)
     logical, intent(in)    :: cplflx, cplice
-    logical, intent(inout) :: dry(:), icy(:), flag_cice(:), wet(:), use_lake_model(:)
+    logical, intent(inout) :: dry(:), icy(:), flag_cice(:), wet(:) !zhang, use_lake_model(:)
+    integer, intent(inout) :: use_lake_model(:)
     real(kind=kind_phys), intent(in)    :: cp, grav, hvap, rd, fvirt, vonKarman, min_seaice, tgice, min_lakeice
     real(kind=kind_phys), intent(in)    :: u1(:), v1(:), z1(:), t1(:), q1(:), p1(:), roughness_length(:), &
       spec_sh_flux(:), spec_lh_flux(:), exner_inverse(:), T_surf(:), oceanfrac(:), lakefrac(:), lakedepth(:)
