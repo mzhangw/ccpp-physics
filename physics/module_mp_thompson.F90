@@ -708,9 +708,9 @@ MODULE module_mp_thompson
          dtc(n) = (Dc(n) - Dc(n-1))
       enddo
 
-!>  - Create bins of cloud ice (from min diameter up to 5x min snow size)
+!>  - Create bins of cloud ice (from min diameter up to 2x min snow size)
       xDx(1) = D0i*1.0d0
-      xDx(nbi+1) = 5.0d0*D0s
+      xDx(nbi+1) = 2.0d0*D0s
       do n = 2, nbi
          xDx(n) = DEXP(DFLOAT(n-1)/DFLOAT(nbi) &
                   *DLOG(xDx(nbi+1)/xDx(1)) +DLOG(xDx(1)))
@@ -1416,6 +1416,7 @@ MODULE module_mp_thompson
                qcten1(k) = 0.
             endif initialize_extended_diagnostics
          enddo
+         lsml = lsm(i,j)
          if (is_aerosol_aware .or. merra2_aerosol_aware) then
             do k = kts, kte
                nc1d(k) = nc(i,k,j)
@@ -1423,7 +1424,6 @@ MODULE module_mp_thompson
                nifa1d(k) = nifa(i,k,j)
             enddo
          else
-            lsml = lsm(i,j)
             do k = kts, kte
                if(lsml == 1) then
                  nc1d(k) = Nt_c_l/rho(k)
@@ -1502,6 +1502,14 @@ MODULE module_mp_thompson
               nifa1d(kts) = nifa1d(kts) + nifa2d(i,j)*dt
             end if
 
+            do k = kts, kte
+               nc(i,k,j) = nc1d(k)
+               nwfa(i,k,j) = nwfa1d(k)
+               nifa(i,k,j) = nifa1d(k)
+            enddo
+         endif
+
+         if (merra2_aerosol_aware) then
             do k = kts, kte
                nc(i,k,j) = nc1d(k)
                nwfa(i,k,j) = nwfa1d(k)
@@ -2822,7 +2830,7 @@ MODULE module_mp_thompson
             prr_rcg(k) = MIN(DBLE(rg(k)*odts), prr_rcg(k))
             prg_rcg(k) = -prr_rcg(k)
 !>  - Put in explicit drop break-up due to collisions.
-            pnr_rcg(k) = -5.*tnr_gacr(idx_g1,idx_g,idx_r1,idx_r)         ! RAIN2M
+            pnr_rcg(k) = -1.5*tnr_gacr(idx_g1,idx_g,idx_r1,idx_r)        ! RAIN2M
            endif
           endif
          endif
@@ -3053,16 +3061,15 @@ MODULE module_mp_thompson
            if (prr_sml(k) .gt. 0.) then
               prr_sml(k) = prr_sml(k) + 4218.*olfus*tempc               &
                                       * (prr_rcs(k)+prs_scw(k))
-           endif
-           prr_sml(k) = MIN(DBLE(rs(k)*odts), MAX(0.D0, prr_sml(k)))
-           pnr_sml(k) = smo0(k)/rs(k)*prr_sml(k) * 10.0**(-0.25*tempc)      ! RAIN2M
-           pnr_sml(k) = MIN(DBLE(smo0(k)*odts), pnr_sml(k))
-
-           if (ssati(k).lt. 0.) then
-            prs_sde(k) = C_cube*t1_subl*diffu(k)*ssati(k)*rvs &
-                         * (t1_qs_sd*smo1(k) &
-                          + t2_qs_sd*rhof2(k)*vsc2(k)*smof(k))
-            prs_sde(k) = MAX(DBLE(-rs(k)*odts), prs_sde(k))
+              prr_sml(k) = MIN(DBLE(rs(k)*odts), prr_sml(k))
+              pnr_sml(k) = smo0(k)/rs(k)*prr_sml(k) * 10.0**(-0.25*tempc)   ! RAIN2M
+              pnr_sml(k) = MIN(DBLE(smo0(k)*odts), pnr_sml(k))
+           elseif (ssati(k).lt. 0.) then
+              prr_sml(k) = 0.0
+              prs_sde(k) = C_cube*t1_subl*diffu(k)*ssati(k)*rvs         &
+                         * (t1_qs_sd*smo1(k)                            &
+                         + t2_qs_sd*rhof2(k)*vsc2(k)*smof(k))
+              prs_sde(k) = MAX(DBLE(-rs(k)*odts), prs_sde(k))
            endif
           endif
 
@@ -3070,17 +3077,16 @@ MODULE module_mp_thompson
            prr_gml(k) = (tempc*tcond(k)-lvap0*diffu(k)*delQvs(k))       &
                       * N0_g(k)*(t1_qg_me*ilamg(k)**cge(10)             &
                       + t2_qg_me*rhof2(k)*vsc2(k)*ilamg(k)**cge(11))
-!-GT       prr_gml(k) = prr_gml(k) + 4218.*olfus*tempc &
-!-GT                               * (prr_rcg(k)+prg_gcw(k))
-           prr_gml(k) = MIN(DBLE(rg(k)*odts), MAX(0.D0, prr_gml(k)))
-           pnr_gml(k) = N0_g(k)*cgg(2)*ilamg(k)**cge(2) / rg(k)         &   ! RAIN2M
-                      * prr_gml(k) * 10.0**(-0.5*tempc)
-
-           if (ssati(k).lt. 0.) then
-            prg_gde(k) = C_cube*t1_subl*diffu(k)*ssati(k)*rvs &
-                * N0_g(k) * (t1_qg_sd*ilamg(k)**cge(10) &
-                + t2_qg_sd*vsc2(k)*rhof2(k)*ilamg(k)**cge(11))
-            prg_gde(k) = MAX(DBLE(-rg(k)*odts), prg_gde(k))
+           if (prr_gml(k) .gt. 0.) then
+              prr_gml(k) = MIN(DBLE(rg(k)*odts), prr_gml(k))
+              pnr_gml(k) = N0_g(k)*cgg(2)*ilamg(k)**cge(2) / rg(k)      &   ! RAIN2M
+                         * prr_gml(k) * 10.0**(-0.5*tempc)
+           elseif (ssati(k).lt. 0.) then
+              prr_gml(k) = 0.0
+              prg_gde(k) = C_cube*t1_subl*diffu(k)*ssati(k)*rvs         &
+                         * N0_g(k) * (t1_qg_sd*ilamg(k)**cge(10)        &
+                         + t2_qg_sd*vsc2(k)*rhof2(k)*ilamg(k)**cge(11))
+              prg_gde(k) = MAX(DBLE(-rg(k)*odts), prg_gde(k))
            endif
           endif
 
@@ -3583,7 +3589,7 @@ MODULE module_mp_thompson
 !+---+-----------------------------------------------------------------+ !  DROPLET NUCLEATION
            if (clap .gt. eps) then
             if (is_aerosol_aware .or. merra2_aerosol_aware) then
-               xnc = MAX(2., activ_ncloud(temp(k), w1d(k)+rand3, nwfa(k)))
+               xnc = MAX(2., activ_ncloud(temp(k), w1d(k)+rand3, nwfa(k), lsml))
             else
                if(lsml == 1) then
                  xnc = Nt_c_l
@@ -5360,14 +5366,15 @@ MODULE module_mp_thompson
 ! TO_DO ITEM:  For radiation cooling producing fog, in which case the
 !.. updraft velocity could easily be negative, we could use the temp
 !.. and its tendency to diagnose a pretend postive updraft velocity.
-      real function activ_ncloud(Tt, Ww, NCCN)
+      real function activ_ncloud(Tt, Ww, NCCN, lsm_in)
 
       implicit none
       REAL, INTENT(IN):: Tt, Ww, NCCN
+      INTEGER, INTENT(IN):: lsm_in
       REAL:: n_local, w_local
       INTEGER:: i, j, k, l, m, n
       REAL:: A, B, C, D, t, u, x1, x2, y1, y2, nx, wy, fraction
-
+      REAL:: lower_lim_nuc_frac
 
 !     ta_Na = (/10.0, 31.6, 100.0, 316.0, 1000.0, 3160.0, 10000.0/)  ntb_arc
 !     ta_Ww = (/0.01, 0.0316, 0.1, 0.316, 1.0, 3.16, 10.0, 31.6, 100.0/)  ntb_arw
@@ -5414,6 +5421,14 @@ MODULE module_mp_thompson
       l = 3
       m = 2
 
+      if (lsm_in .eq. 1) then       ! land
+         lower_lim_nuc_frac = 0.
+      else if (lsm_in .eq. 0) then  ! water
+         lower_lim_nuc_frac = 0.15
+      else
+         lower_lim_nuc_frac = 0.15  ! catch-all for anything else	
+      endif
+
       A = tnccn_act(i-1,j-1,k,l,m)
       B = tnccn_act(i,j-1,k,l,m)
       C = tnccn_act(i,j,k,l,m)
@@ -5428,7 +5443,8 @@ MODULE module_mp_thompson
 !     u = (w_local-ta_Ww(j-1))/(ta_Ww(j)-ta_Ww(j-1))
 
       fraction = (1.0-t)*(1.0-u)*A + t*(1.0-u)*B + t*u*C + (1.0-t)*u*D
-
+      fraction = MAX(fraction, lower_lim_nuc_frac)
+      
 !     if (NCCN*fraction .gt. 0.75*Nt_c_max) then
 !        write(*,*) ' DEBUG-GT ', n_local, w_local, Tt, i, j, k
 !     endif
@@ -5848,6 +5864,7 @@ MODULE module_mp_thompson
          endif
          lamc = (nc(k)*am_r*g_ratio(inu_c)/rc(k))**obmr
          re_qc1d(k) = SNGL(0.5D0 * DBLE(3.+inu_c)/lamc)
+         if (lsml .ne. 1) re_qc1d(k) = max(re_qc1d(k), 7.0E-6)
       enddo
       endif
 
