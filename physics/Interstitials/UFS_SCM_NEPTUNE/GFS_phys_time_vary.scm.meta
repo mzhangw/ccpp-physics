@@ -51,6 +51,13 @@
   dimensions = ()
   type = logical
   intent = in
+[iaermdl]
+  standard_name = control_for_aerosol_radiation_scheme
+  long_name = control of aerosol scheme in radiation
+  units = 1
+  dimensions = ()
+  type = integer
+  intent = in
 [iccn]
   standard_name = control_for_ice_cloud_condensation_nuclei_forcing
   long_name = flag for IN and CCN forcing for morrison gettelman microphysics
@@ -68,6 +75,13 @@
 [im]
   standard_name = horizontal_dimension
   long_name = horizontal dimension
+  units = count
+  dimensions = ()
+  type = integer
+  intent = in
+[levs]
+  standard_name = vertical_layer_dimension
+  long_name = number of vertical levels
   units = count
   dimensions = ()
   type = integer
@@ -232,7 +246,7 @@
   dimensions = (horizontal_dimension,vertical_layer_dimension,number_of_aerosol_tracers_MG)
   type = real
   kind = kind_phys
-  intent = in
+  intent = out
 [jindx1_ci]
   standard_name = lower_latitude_index_of_cloud_nuclei_forcing_for_interpolation
   long_name = interpolation low index for ice and cloud condensation nuclei in the y direction
@@ -946,6 +960,80 @@
   units = count
   dimensions = ()
   type = integer
+  intent = in
+[lkm]
+  standard_name = control_for_lake_model_execution_method
+  long_name = control for lake model execution: 0=no lake, 1=lake, 2=lake+nsst
+  units = flag
+  dimensions = ()
+  type = integer
+  intent = in
+[use_lake_model]
+  standard_name = flag_for_using_lake_model
+  long_name = flag indicating lake points using a lake model
+  units = flag
+  dimensions = (horizontal_dimension)
+  type = integer
+  intent = inout
+[lakefrac]
+  standard_name = lake_area_fraction
+  long_name = fraction of horizontal grid area occupied by lake
+  units = frac
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = in
+[lakedepth]
+  standard_name = lake_depth
+  long_name = lake depth
+  units = m
+  dimensions = (horizontal_dimension)
+  type = real
+  kind = kind_phys
+  intent = in
+[iopt_lake]
+  standard_name = control_for_lake_model_selection
+  long_name = control for lake model selection
+  units = 1
+  dimensions = ()
+  type = integer
+  intent = in
+[iopt_lake_clm]
+  standard_name = clm_lake_model_control_selection_value
+  long_name = value that indicates clm lake model in the control for lake model selection
+  units = 1
+  dimensions = ()
+  type = integer
+  intent = in
+[iopt_lake_flake]
+  standard_name = flake_model_control_selection_value
+  long_name = value that indicates flake model in the control for lake model selection
+  units = 1
+  dimensions = ()
+  type = integer
+  intent = in
+[lakefrac_threshold]
+  standard_name = lakefrac_threshold_for_enabling_lake_model
+  long_name = fraction of horizontal grid area occupied by lake must be greater than this value to enable a lake model
+  units = frac
+  dimensions = ()
+  type = real
+  kind = kind_phys
+  intent = in
+[lakedepth_threshold]
+  standard_name = lake_depth_threshold_for_enabling_lake_model
+  long_name = lake depth must be greater than this value to enable a lake model
+  units = m
+  dimensions = ()
+  type = real
+  kind = kind_phys
+  intent = in
+[ozphys]
+  standard_name = dataset_for_ozone_physics
+  long_name = dataset for NRL ozone physics
+  units = mixed
+  dimensions = ()
+  type = ty_ozphys
   intent = in
 [errmsg]
   standard_name = ccpp_error_message
