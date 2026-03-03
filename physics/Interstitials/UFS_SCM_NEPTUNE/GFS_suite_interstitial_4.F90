@@ -20,10 +20,10 @@
            make_IceNumber_thompson => make_IceNumber, &
            make_DropletNumber_thompson => make_DropletNumber
 
-      use module_mp_tempo_utils, only: &
+      use module_mp_tempo_utils_v2, only: &
            make_IceNumber_tempo => make_IceNumber, &
            make_DropletNumber_tempo => make_DropletNumber
-
+    
       implicit none
 
       ! interface variables
@@ -234,7 +234,7 @@
                     nc_mp(i,k) = gq0(i,k,ntlnc) / (one-spechum(i,k))
                     if (imp_physics == imp_physics_thompson) then
                        nc_mp(i,k) = max(zero, nc_mp(i,k) + make_DropletNumber_thompson(qc_mp(i,k) * rho, nwfa(i,k)*rho) * orho)
-                    else
+                    else ! tempo
                        nc_mp(i,k) = max(zero, nc_mp(i,k) + make_DropletNumber_tempo(qc_mp(i,k) * rho, nwfa(i,k)*rho) * orho)
                     endif
                     !> - Convert number concentrations from dry to moist
@@ -247,7 +247,7 @@
                     ni_mp(i,k) = gq0(i,k,ntinc) / (one-spechum(i,k))
                     if (imp_physics == imp_physics_thompson) then
                        ni_mp(i,k) = max(zero, ni_mp(i,k) + make_IceNumber_thompson(qi_mp(i,k) * rho, save_tcp(i,k)) * orho)
-                    else
+                    else ! tempo
                        ni_mp(i,k) = max(zero, ni_mp(i,k) + make_IceNumber_tempo(qi_mp(i,k) * rho, save_tcp(i,k)) * orho)
                     endif
                     !> - Convert number concentrations from dry to moist
@@ -267,7 +267,7 @@
                     !> - Update cloud water number concentration
                     if (imp_physics == imp_physics_thompson) then
                        gq0(i,k,ntlnc) = max(zero, gq0(i,k,ntlnc) + make_DropletNumber_thompson(qc_mp(i,k) * rho, nwfa(i,k)*rho) * orho)
-                    else
+                    else ! tempo
                        gq0(i,k,ntlnc) = max(zero, gq0(i,k,ntlnc) + make_DropletNumber_tempo(qc_mp(i,k) * rho, nwfa(i,k)*rho) * orho)
                     endif
                   endif
@@ -277,7 +277,7 @@
                     !> - Update cloud ice number concentration
                     if (imp_physics == imp_physics_thompson) then
                        gq0(i,k,ntinc) = max(zero, gq0(i,k,ntinc) + make_IceNumber_thompson(qi_mp(i,k) * rho, save_tcp(i,k)) * orho)
-                    else
+                    else ! tempo
                        gq0(i,k,ntinc) = max(zero, gq0(i,k,ntinc) + make_IceNumber_tempo(qi_mp(i,k) * rho, save_tcp(i,k)) * orho)
                     endif
                   endif
